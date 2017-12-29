@@ -1,4 +1,4 @@
-def p54():
+def p56():
   maxi = 0
   for a in xrange(0, 100):
     for b in xrange(0, 100):
