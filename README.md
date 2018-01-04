@@ -1,7 +1,7 @@
 # ProjectEuler
 When I have time to solve some problems...
 
-#Why do I publish my scripts ?
+# Why do I publish my scripts ?
 Because anyone can already easely find the solutions on internet, and they are always better than mine.
 There is no point to cheat, you are only cheating yourself.
 
