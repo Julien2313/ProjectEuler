@@ -8,9 +8,9 @@ def isPentagonal(N):
   # n = (1+-sqrt(1+24N))/6
   # n must be positive, there is no solution for n = (1-sqrt(1+24N))/6
   # n is natural so :
-  # (1+sqrt(1+24N)) % 6 = 0
-  # (1   +  sqrt(1+24N))% 6   = 0
-  # (       sqrt(1+24N))% 6   = 5
+  # (1 + sqrt(1 + 24*N)) % 6 = 0
+  # (1 + sqrt(1 + 24*N)) % 6 = 0
+  # (    sqrt(1 + 24*N)) % 6 = 5
   return (pow(1+24*N, 1.0/2) % 6) == 5
 
 def p44():
