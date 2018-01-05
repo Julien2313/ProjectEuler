@@ -1,4 +1,4 @@
-def p46():
+def p48():
   sum = 0
   for x in xrange(1, 1000+1):
     sum = (sum + x**x)%10000000000
