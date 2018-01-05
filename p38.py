@@ -1,3 +1,5 @@
+from collections import Counter
+
 def p38():
   maxi = 0
   #max 9999 because 1xxxx will always be smaller
