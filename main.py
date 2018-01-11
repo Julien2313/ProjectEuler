@@ -1,3 +1,6 @@
-import p61 as prob
+import time
+import p92 as prob
 
+START = time.time()
 prob.solve()
+print "Time Taken:", time.time() - START
