@@ -12,4 +12,4 @@ There is no point to cheat, you are only cheating yourself.
 
 After solving a problem, I always search solutions on internet in order to find other ways to solve it (and so to learn), so if I can help someone...
 
-If one day I achieve to be on the first 100, I would wait to publish my solution.
+If one day I achieve to be on the first 100, I would wait to publish my solution. 
