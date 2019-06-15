@@ -1,5 +1,5 @@
 import time
-import p92 as prob
+import solution.p92 as prob
 
 START = time.time()
 prob.solve()

@@ -1,5 +1,9 @@
 package helpers
 
+import (
+	"math"
+)
+
 func Factorial(n int64) int64 {
 	if n <= 1 {
 		return 1
@@ -33,4 +37,13 @@ func FactorialsXDivXMinusY(x, y int64) int64 {
 		mult *= x - i
 	}
 	return mult
+}
+
+func IsPrimeSqrt(value uint64) bool {
+	for i := uint64(2); i <= uint64(math.Floor(math.Sqrt(float64(value)))); i++ {
+		if value%i == uint64(0) {
+			return false
+		}
+	}
+	return value > 1
 }
