@@ -1,5 +1,3 @@
-![](https://projecteuler.net/profile/BlackFart.png)
-
 Not so much... for now !
 
 # ProjectEuler
