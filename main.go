@@ -1,9 +1,16 @@
 package main
 
-import "github.com/Julien2313/ProjectEuler/solution"
+import (
+	"fmt"
+	"time"
+
+	"github.com/Julien2313/ProjectEuler/solutions"
+)
 
 func main() {
 
-	solution.P65()
+	start := time.Now()
+	solution.P357()
+	fmt.Println("time took", time.Since(start))
 
 }

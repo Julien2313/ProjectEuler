@@ -1,5 +1,5 @@
 import time
-import solution.p65 as prob
+import solutions.p89 as prob
 
 START = time.time()
 prob.solve()
