@@ -18,3 +18,12 @@ func SliceEq(a, b []int) bool {
 
 	return true
 }
+
+func ContainsUInt64(s []uint64, v uint64) bool {
+	for _, vv := range s {
+		if vv == v {
+			return true
+		}
+	}
+	return false
+}

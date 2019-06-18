@@ -1,5 +1,7 @@
 package helpers
 
+import "math"
+
 func ComputeSumDigit(n uint64) uint64 {
 	sum := uint64(0)
 	for ; n > 0; n /= 10 {
@@ -8,11 +10,16 @@ func ComputeSumDigit(n uint64) uint64 {
 	return sum
 }
 
-func ContainsUInt64(s []uint64, v uint64) bool {
-	for _, vv := range s {
-		if vv == v {
-			return true
-		}
+func getHigherDigit(n uint64) uint64 {
+	if int(math.Pow10(int(math.Log10(float64(n))))) <= 1 {
+		return n
 	}
-	return false
+	return n / uint64(math.Pow10(int(math.Log10(float64(n)))))
+}
+
+func GetHigherDigits(n uint64, nbrDigits int) uint64 {
+	// if int(math.Log10(float64(n))) <= nbrDigits {
+	// 	return n
+	// }
+	return n / uint64(math.Pow10(int(math.Log10(float64(n)))-nbrDigits+1))
 }

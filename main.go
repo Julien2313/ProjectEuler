@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Julien2313/ProjectEuler/solutions"
+	solution "github.com/Julien2313/ProjectEuler/solutions"
 )
 
 func main() {

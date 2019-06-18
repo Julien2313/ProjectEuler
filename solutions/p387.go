@@ -9,29 +9,32 @@ import (
 )
 
 func P387() {
-	sum := uint64(0)
+	sum := uint64(90619)
 	// primes := prime.Primes(100000000000000)
-	primes := prime.Primes(100000000)
-	// var strongHarshadNumbers []uint64
-	// strongHarshadNumbers := make(map[uint64]bool)
+	primes := prime.Primes(1000000000)
 	var harshads []uint64
-	for _, prime := range primes {
+	for x := uint64(1000); x < 10000; x++ {
+		sumDigits := helpers.ComputeSumDigit(x)
+		if x%sumDigits == uint64(0) {
+			harshads = append(harshads, x)
+		}
+	}
+
+	for _, prime := range primes[1229:] {
+		if !helpers.ContainsUInt64(harshads, helpers.GetHigherDigits(prime, 4)) {
+			continue
+		}
 
 		harshad := prime / 10
-		h := []uint64{}
 		sumDigits := helpers.ComputeSumDigit(harshad)
-		if sumDigits == 0 {
+		if harshad%sumDigits != uint64(0) {
 			continue
 		}
 		if !big.NewInt(int64(harshad / sumDigits)).ProbablyPrime(0) {
 			continue
 		}
 		isOk := true
-		for ; harshad > 0; harshad /= 10 {
-			h = append(h, harshad)
-			if helpers.ContainsUInt64(harshads, harshad) {
-				break
-			}
+		for ; harshad > 10; harshad /= 10 {
 			sumDigits := helpers.ComputeSumDigit(harshad)
 			if harshad%sumDigits != uint64(0) {
 				isOk = false
@@ -40,7 +43,6 @@ func P387() {
 		}
 		if isOk {
 			sum += prime
-			harshads = append(harshads, h...)
 		}
 	}
 	fmt.Println(sum)
