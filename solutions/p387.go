@@ -8,29 +8,34 @@ import (
 	"github.com/kavehmz/prime"
 )
 
-func P387() {
-	sum := uint64(90619)
-	// primes := prime.Primes(100000000000000)
-	primes := prime.Primes(1000000000)
-	var harshads []uint64
-	for x := uint64(1000); x < 10000; x++ {
-		sumDigits := helpers.ComputeSumDigit(x)
-		if x%sumDigits == uint64(0) {
-			harshads = append(harshads, x)
-		}
-	}
+func isHarshad(harshad uint64) bool {
 
-	for _, prime := range primes[1229:] {
-		if !helpers.ContainsUInt64(harshads, helpers.GetHigherDigits(prime, 4)) {
-			continue
-		}
-
-		harshad := prime / 10
+	for ; harshad > 10; harshad /= 10 {
 		sumDigits := helpers.ComputeSumDigit(harshad)
 		if harshad%sumDigits != uint64(0) {
+			return false
+		}
+	}
+	return true
+}
+
+func P387() {
+	sum := uint64(0)
+	primes := prime.Primes(100000000)
+	// good := make(map[uint64]bool)
+	for i, j := 0, len(primes)-1; i < j; i, j = i+1, j-1 {
+		primes[i], primes[j] = primes[j], primes[i]
+	}
+	for _, prime := range primes {
+		harshad := prime / 10
+		// if value, ok := good[harshad]; ok && !value {
+		// 	continue
+		// }
+		sumDigits := helpers.ComputeSumDigit(harshad)
+		if sumDigits == 0 {
 			continue
 		}
-		if !big.NewInt(int64(harshad / sumDigits)).ProbablyPrime(0) {
+		if harshad%sumDigits != uint64(0) {
 			continue
 		}
 		isOk := true
@@ -38,10 +43,18 @@ func P387() {
 			sumDigits := helpers.ComputeSumDigit(harshad)
 			if harshad%sumDigits != uint64(0) {
 				isOk = false
+				// good[harshad] = false
 				break
 			}
 		}
+		if !big.NewInt(int64(prime / 10 / sumDigits)).ProbablyPrime(0) {
+			continue
+		}
+
 		if isOk {
+			// for harshad := prime / 10; harshad > 10; harshad /= 10 {
+			// 	good[harshad] = true
+			// }
 			sum += prime
 		}
 	}
