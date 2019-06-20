@@ -2,7 +2,7 @@ package helpers
 
 import "math"
 
-func ComputeSumDigit(n uint64) uint64 {
+func ComputeSumDigits(n uint64) uint64 {
 	sum := uint64(0)
 	for ; n > 0; n /= 10 {
 		sum += n % 10
