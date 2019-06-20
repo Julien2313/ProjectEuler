@@ -10,7 +10,7 @@ import (
 func main() {
 
 	start := time.Now()
-	fmt.Println(solution.P387())
+	fmt.Println(solution.P493())
 	fmt.Println("time took", time.Since(start))
 
 }
