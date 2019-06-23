@@ -2,11 +2,11 @@ package solution
 
 import (
 	"fmt"
-	"math"
 )
 
-const NBRBALLS = 3
+const NBRBALLS = 2
 const NBRPICKS = 2
+const NBRBALLSPERCOLOR = 1
 
 func P493() uint64 {
 
@@ -36,23 +36,28 @@ func P493() uint64 {
 			[10, 10, 10, 10, 10, 8, 7] (/67)
 			[10, 10, 10, 8, 9, 9, 9] (/67)
 	*/
-	// fmt.Println(RecurP493(1.0, 0, []int{10, 10, 10, 10, 10, 10, 10, 10}))
-	fmt.Println(float64(RecurP493(0, 0, []int{10, 10, 10})), math.Pow(NBRBALLS, NBRPICKS))
+	balls := []int{}
+	for i := 0; i < NBRBALLS; i++ {
+		balls = append(balls, NBRBALLSPERCOLOR)
+	}
+	fmt.Println(RecurP493(0, 0, balls))
+	fmt.Println()
 	return 0
 }
 
 // nbr couleur/nbrlLancés
-func RecurP493(coef int, nbrPicks int, balls []int) int {
+func RecurP493(coef int, nbrPicks int, balls []int) (int, int) {
 	nbrColor := 0
 	if nbrPicks == NBRPICKS {
+		fmt.Println(balls)
 		// fmt.Println(balls)
 		for color := 0; color < NBRBALLS; color++ {
-			if balls[color] != 10 {
+			if balls[color] != NBRBALLSPERCOLOR {
 				nbrColor++
 			}
 		}
-		fmt.Println("coef", nbrColor*coef)
-		return nbrColor * coef
+		fmt.Println(nbrColor * coef)
+		return nbrColor * coef, coef
 	}
 	nbrPicks++
 	futurCoef := 1
@@ -60,28 +65,29 @@ func RecurP493(coef int, nbrPicks int, balls []int) int {
 		if balls[color] == 0 {
 			continue
 		}
-		if color+1 == NBRBALLS {
-			balls[color]--
+		// if color+1 == NBRBALLS {
+		// 	balls[color]--
 
-			newNbrColor := RecurP493(futurCoef, nbrPicks, balls)
-			// nbrColor = (nbrColor*float64(coef) + newNbrColor*float64(newCoef)) / float64(newCoef+coef)
-			nbrColor += newNbrColor
+		// 	newNbrColor := RecurP493(futurCoef, nbrPicks, balls)
+		// 	// nbrColor = (nbrColor*float64(coef) + newNbrColor*float64(newCoef)) / float64(newCoef+coef)
+		// 	nbrColor += newNbrColor
 
-			balls[color]++
-		} else {
-			if balls[color+1] == balls[color] {
-				futurCoef++
-			} else {
-				balls[color]--
+		// 	balls[color]++
+		// } else {
+		// if balls[color+1] == balls[color] {
+		// 	futurCoef++
+		// } else {
+		balls[color]--
 
-				newNbrColor := RecurP493(futurCoef, nbrPicks, balls)
-				// nbrColor = (nbrColor*float64(coef) + newNbrColor*float64(newCoef)) / float64(newCoef+coef)
-				nbrColor += newNbrColor
+		newNbrColor, newCoef := RecurP493(futurCoef, nbrPicks, balls)
+		// nbrColor = (nbrColor*float64(coef) + newNbrColor*float64(newCoef)) / float64(newCoef+coef)
+		coef += newCoef
+		nbrColor += newNbrColor
 
-				balls[color]++
-				futurCoef = 1.0
-			}
-		}
+		balls[color]++
+		// futurCoef = 1.0
+		// }
+		// }
 	}
-	return nbrColor
+	return nbrColor, coef
 }
