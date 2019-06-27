@@ -50,7 +50,7 @@ func RecurP493(coef int, nbrPicks int, balls []int) (int, int) {
 		// 	futurCoef++
 		// } else {
 		balls[color]--
-		newNbrColor, newCoef := RecurP493(2, nbrPicks, balls)
+		newNbrColor, newCoef := RecurP493(futurCoef, nbrPicks, balls)
 		balls[color]++
 
 		totCoef += newCoef * balls[color]
