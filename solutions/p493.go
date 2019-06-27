@@ -32,16 +32,34 @@ func RecurP493(coef int, nbrPicks int, balls []int) (int, int) {
 	}
 	nbrPicks++
 	totCoef := 0
+	futurCoef := 1
 	for color := 0; color < NBRCOLORS; color++ {
 		if balls[color] == 0 {
 			continue
 		}
-		balls[color]--
-		newNbrColor, newCoef := RecurP493(1, nbrPicks, balls)
-		balls[color]++
+		// if color+1 == NBRCOLORS {
+		// 	balls[color]--
 
-		totCoef += newCoef * balls[color]
-		nbrColor += newNbrColor * balls[color]
+		// 	newNbrColor, newCoef := RecurP493(futurCoef, nbrPicks, balls)
+		// 	// nbrColor = (nbrColor*float64(coef) + newNbrColor*float64(newCoef)) / float64(newCoef+coef)
+		// 	balls[color]++
+		// 	totCoef += newCoef * balls[color]
+		// 	nbrColor += newNbrColor * balls[color]
+		// 	futurCoef = 1.0
+		// } else {
+		if balls[color+1] == balls[color] {
+			futurCoef++
+		} else {
+			balls[color]--
+			newNbrColor, newCoef := RecurP493(futurCoef, nbrPicks, balls)
+			// nbrColor = (nbrColor*float64(coef) + newNbrColor*float64(newCoef)) / float64(newCoef+coef)
+			balls[color]++
+
+			totCoef += newCoef * balls[color]
+			nbrColor += newNbrColor * balls[color]
+			futurCoef = 1.0
+		}
+		// }
 	}
 	coef *= totCoef
 	return nbrColor, coef
