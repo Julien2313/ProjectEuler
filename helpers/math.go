@@ -68,3 +68,9 @@ func AllDivisor(n int) []int {
 
 	return divisors
 }
+func Gcd(x, y uint64) uint64 {
+	for y != 0 {
+		x, y = y, x%y
+	}
+	return x
+}
