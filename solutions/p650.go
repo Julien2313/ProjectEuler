@@ -12,17 +12,24 @@ func FactP650(n uint64) uint64 {
 }
 
 func SumDivisorP650(n uint64) uint64 {
-	divisors := n + 1
-	max := uint64(math.Sqrt(float64(n))) + 1
-	for d := uint64(2); d < max; d++ {
-		if n%d == 0 {
-			if d != n/d {
-				divisors += n / d
-			}
-			divisors += d
+	sum := uint64(1)
+	for d := uint64(2); d <= uint64(math.Sqrt(float64(n))); d++ {
+
+		dSum := uint64(1)
+		dTerm := uint64(1)
+		for n%d == 0 {
+			n /= d
+
+			dTerm *= d
+			dSum += dTerm
 		}
+		sum *= dSum
 	}
-	return divisors
+
+	if n >= 2 {
+		sum *= (1 + n)
+	}
+	return sum
 }
 
 func Bn(n uint64) uint64 {
@@ -46,10 +53,11 @@ func Sn(n uint64) uint64 {
 	sum := uint64(0)
 	for k := uint64(1); k <= n; k++ {
 		sum += Dn(k)
+		sum %= 1000000007
 	}
 	return sum
 }
 
-func P650() float64 {
-	return float64(Sn(5))
+func P650() uint64 {
+	return Sn(10)
 }
