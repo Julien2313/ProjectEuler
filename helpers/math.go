@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-func Factorial(n int64) int64 {
+func Factorial(n uint64) uint64 {
 	if n <= 1 {
 		return 1
 	}
@@ -12,7 +12,7 @@ func Factorial(n int64) int64 {
 	return n * Factorial(n-1)
 }
 
-func Sub2Factorials(n1, n2 int64) int64 {
+func Sub2Factorials(n1, n2 uint64) uint64 {
 	if n1 < n2 {
 		n3 := n2
 		n2 = n1
@@ -20,23 +20,46 @@ func Sub2Factorials(n1, n2 int64) int64 {
 	}
 
 	diff := n1
-	for i := int64(1); i < n1-n2; i++ {
+	for i := uint64(1); i < n1-n2; i++ {
 		diff *= n1 - i
 	}
 	return (diff - 1) * Factorial(n2)
 }
 
 // x!/(x-y)!
-func FactorialsXDivXMinusY(x, y int64) int64 {
+func FactorialsXDivXMinusY(x, y uint64) uint64 {
 	if x < y {
 		panic("x < y")
 	}
-
-	mult := int64(1)
-	for i := int64(0); i < y; i++ {
+	mult := uint64(1)
+	for i := uint64(0); i < y; i++ {
 		mult *= x - i
 	}
 	return mult
+}
+
+// x!/(x-y)!/y!
+func FactorialsXDivXMinusYDivY(x, y uint64) uint64 {
+	if x < y {
+		panic("x < y")
+	}
+	fact := uint64(1)
+	xmy := x - y
+	if x < y*2 {
+		t := xmy
+		xmy = y
+		y = t
+	}
+	Fy := Factorial(y)
+	for ; x > xmy; x-- {
+		fact *= x
+		if fact%Fy == 0 {
+			fact /= Fy
+			Fy = 1
+		}
+	}
+
+	return fact / Fy
 }
 
 func IsPrimeSqrt(value uint64) bool {
