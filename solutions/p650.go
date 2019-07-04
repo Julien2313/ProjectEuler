@@ -58,18 +58,45 @@ func Sn(n uint64) uint64 {
 	return sum
 }
 
-func Sn_(n uint64) uint64 {
-	sum := uint64(0)
-	primes := prime.Primes(20000)
-	factors := make(map[uint64]uint64)
-	for i := uint64(0); i < n/2; i++ {
-		factors[n-i]++
-	}
-	for i := uint64(n / 2); i < n-1; i++ {
-		factors[n-i] += 2
+func primeFactorsToFactors(primeFactors map[uint64]uint64, value uint64, factors *[]uint64) {
+	if len(primeFactors) == 0 {
+		*factors = append(*factors, value)
+		return
 	}
 
-	for factor, _ := range factors {
+	primeFactor := getSomeKey(primeFactors)
+	newPrimeFactors := make(map[uint64]uint64)
+	for k, v := range primeFactors {
+		newPrimeFactors[k] = v
+	}
+
+	delete(newPrimeFactors, primeFactor)
+
+	for x := uint64(0); x <= primeFactors[primeFactor]; x++ {
+		if x != 0 {
+			value *= primeFactor
+		}
+		primeFactorsToFactors(newPrimeFactors, value, factors)
+	}
+}
+func getSomeKey(m map[uint64]uint64) uint64 {
+	for k := range m {
+		return k
+	}
+	panic("no key left")
+}
+func Sn_(n uint64) uint64 {
+	sum := uint64(0)
+	primes := prime.Primes(n)
+	primeFactors := make(map[uint64]uint64)
+	for i := uint64(0); i < n/2; i++ {
+		primeFactors[n-i]++
+	}
+	for i := uint64(n / 2); i < n-1; i++ {
+		primeFactors[n-i] += 2
+	}
+
+	for factor, _ := range primeFactors {
 		if helpers.IsPrimeSqrt(factor) {
 			continue
 		}
@@ -79,15 +106,19 @@ func Sn_(n uint64) uint64 {
 				break
 			}
 			for f%prime == 0 {
-				factors[prime] += factors[factor]
+				primeFactors[prime] += primeFactors[factor]
 				f /= prime
 			}
 		}
-		delete(factors, factor)
+		delete(primeFactors, factor)
+	}
+	factors := []uint64{}
+	primeFactorsToFactors(primeFactors, 1, &factors)
+	for _, f := range factors {
+		sum += f
 	}
 	fmt.Println(factors)
-
-	
+	fmt.Println(sum)
 
 	return sum
 }
@@ -102,6 +133,6 @@ func P650() uint64 {
 	// fmt.Println(helpers.FactorialsXDivXMinusYDivY(x, y))
 
 	// return 0
-	fmt.Println(Sn_(16))
+	fmt.Println(Sn_(5))
 	return uint64(10)
 }
