@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"github.com/Julien2313/ProjectEuler/helpers"
+	"github.com/kavehmz/prime"
 )
 
 const mod = 1000000007
@@ -57,6 +58,40 @@ func Sn(n uint64) uint64 {
 	return sum
 }
 
+func Sn_(n uint64) uint64 {
+	sum := uint64(0)
+	primes := prime.Primes(20000)
+	factors := make(map[uint64]uint64)
+	for i := uint64(0); i < n/2; i++ {
+		factors[n-i]++
+	}
+	for i := uint64(n / 2); i < n-1; i++ {
+		factors[n-i] += 2
+	}
+
+	for factor, _ := range factors {
+		if helpers.IsPrimeSqrt(factor) {
+			continue
+		}
+		f := factor
+		for _, prime := range primes {
+			if prime > f {
+				break
+			}
+			for f%prime == 0 {
+				factors[prime] += factors[factor]
+				f /= prime
+			}
+		}
+		delete(factors, factor)
+	}
+	fmt.Println(factors)
+
+	
+
+	return sum
+}
+
 func P650() uint64 {
 
 	// x := uint64(50)
@@ -67,5 +102,6 @@ func P650() uint64 {
 	// fmt.Println(helpers.FactorialsXDivXMinusYDivY(x, y))
 
 	// return 0
-	return Sn(13)
+	fmt.Println(Sn_(16))
+	return uint64(10)
 }
