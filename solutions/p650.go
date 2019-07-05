@@ -45,13 +45,12 @@ func Bn(n uint64) uint64 {
 }
 
 func Dn(n uint64) uint64 {
-	fmt.Println(Bn(n))
 	return SumDivisorP650(Bn(n)) % mod
 }
 
 func Sn(n uint64) uint64 {
 	sum := uint64(0)
-	for k := uint64(1); k <= n; k++ {
+	for k := uint64(n); k <= n; k++ {
 		sum += Dn(k)
 		sum %= mod
 	}
@@ -87,39 +86,42 @@ func getSomeKey(m map[uint64]uint64) uint64 {
 }
 func Sn_(n uint64) uint64 {
 	sum := uint64(0)
-	primes := prime.Primes(n)
-	primeFactors := make(map[uint64]uint64)
-	for i := uint64(0); i < n/2; i++ {
-		primeFactors[n-i]++
-	}
-	for i := uint64(n / 2); i < n-1; i++ {
-		primeFactors[n-i] += 2
-	}
-
-	for factor, _ := range primeFactors {
-		if helpers.IsPrimeSqrt(factor) {
-			continue
+	for x := uint64(n); x <= n; x++ {
+		primes := prime.Primes(x)
+		primeFactors := make(map[uint64]uint64)
+		for i := uint64(0); i < x/2; i++ {
+			primeFactors[x-i]++
 		}
-		f := factor
-		for _, prime := range primes {
-			if prime > f {
-				break
-			}
-			for f%prime == 0 {
-				primeFactors[prime] += primeFactors[factor]
-				f /= prime
-			}
+		for i := uint64(x / 2); i < x-1; i++ {
+			primeFactors[x-i] += 2
 		}
-		delete(primeFactors, factor)
-	}
-	factors := []uint64{}
-	primeFactorsToFactors(primeFactors, 1, &factors)
-	for _, f := range factors {
-		sum += f
-	}
-	fmt.Println(factors)
-	fmt.Println(sum)
 
+		fmt.Println(primeFactors)
+
+		for factor, _ := range primeFactors {
+			if helpers.IsPrimeSqrt(factor) {
+				continue
+			}
+			f := factor
+			for _, prime := range primes {
+				if prime > f {
+					break
+				}
+				for f%prime == 0 {
+					primeFactors[prime] += primeFactors[factor]
+					f /= prime
+				}
+			}
+			delete(primeFactors, factor)
+		}
+		factors := []uint64{}
+		primeFactorsToFactors(primeFactors, 1, &factors)
+		fmt.Println(factors)
+		for _, f := range factors {
+			sum += f
+		}
+
+	}
 	return sum
 }
 
@@ -133,6 +135,9 @@ func P650() uint64 {
 	// fmt.Println(helpers.FactorialsXDivXMinusYDivY(x, y))
 
 	// return 0
-	fmt.Println(Sn_(5))
-	return uint64(10)
+	x := uint64(3)
+	fmt.Println(Sn_(x))
+	return Sn(x)
 }
+
+//  S(5)=5736
