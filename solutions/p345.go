@@ -64,12 +64,26 @@ func removeLineColumn(index int, board [][]uint64) [][]uint64 {
 	return tBoard
 }
 
+func sumMaxEachLine(board [][]uint64) uint64 {
+	sum := uint64(0)
+	for x, _ := range board {
+		max := uint64(0)
+		for y, _ := range board {
+			if board[x][y] > max {
+				max = board[x][y]
+			}
+		}
+		sum += max
+	}
+	return sum
+}
+
 func recurP345(max, currentValue uint64, board [][]uint64) uint64 {
 	left := len(board)
 	if left == 0 {
 		return currentValue
 	}
-	if max > currentValue+uint64(left*1000) {
+	if max > currentValue+sumMaxEachLine(board) {
 		return currentValue
 	}
 
